@@ -77,6 +77,7 @@ namespace TicTacToe
 			this.crossesPlayerNameSubmitButton.TabIndex = 4;
 			this.crossesPlayerNameSubmitButton.Text = "Готово";
 			this.crossesPlayerNameSubmitButton.UseVisualStyleBackColor = true;
+			this.crossesPlayerNameSubmitButton.Click += new System.EventHandler(this.crossesPlayerNameSubmitButton_Click);
 			// 
 			// zerosPlayerNameSubmitButton
 			// 
