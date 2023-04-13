@@ -17,5 +17,10 @@ namespace TicTacToe
 			InitializeComponent();
 		}
 
+		// Функция загрущки формы.
+		private void Form1_Load(object sender, EventArgs e)
+		{
+
+		}
 	}
 }
