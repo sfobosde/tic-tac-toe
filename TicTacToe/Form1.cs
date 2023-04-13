@@ -47,23 +47,14 @@ namespace TicTacToe
 				Figure.Crosses);
 		}
 
-		// Инициализация игрока.
-		private Player InitializePlayer(string Name, Figure figure)
+		// Игрок нолики нажал на кнопку готово/редактировать.
+		private void zerosPlayerNameSubmitButton_Click(object sender, EventArgs e)
 		{
-			// Проверяем, ввел ли игрок имя.
-			if (string.IsNullOrEmpty(Name))
-			{
-				// Игрок не ввел имя и сбрасываем ошибку.
-				throw new Exception("Игроку необходимо ввести имя");
-			}
-
-			// Если игрок все таки ввел имя.
-			var player = new Player(Name, true);
-
-			// Ставим ему нужную фигуру.
-			player.SetPlayerFigure(figure);
-
-			return player;
+			zerosPlayer = HandlePlayerClickedSumbitButton(
+				zerosPlayer,
+				this.zerosPlayerName,
+				this.zerosPlayerNameSubmitButton,
+				Figure.Zeros);
 		}
 
 		// Обработка события нажатия игроком кнопоки Готово/редактировать.
@@ -106,6 +97,25 @@ namespace TicTacToe
 					MessageBox.Show(exc.Message);
 				}
 			}
+
+			return player;
+		}
+
+		// Инициализация игрока.
+		private Player InitializePlayer(string Name, Figure figure)
+		{
+			// Проверяем, ввел ли игрок имя.
+			if (string.IsNullOrEmpty(Name))
+			{
+				// Игрок не ввел имя и сбрасываем ошибку.
+				throw new Exception("Игроку необходимо ввести имя");
+			}
+
+			// Если игрок все таки ввел имя.
+			var player = new Player(Name, true);
+
+			// Ставим ему нужную фигуру.
+			player.SetPlayerFigure(figure);
 
 			return player;
 		}
