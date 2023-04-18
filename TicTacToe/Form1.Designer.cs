@@ -100,6 +100,8 @@ namespace TicTacToe
 			this.Controls.Add(this.zerosPlayerNameLabel);
 			this.Controls.Add(this.crossesPlayerNameLabel);
 			this.Controls.Add(this.crossesPlayerName);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
