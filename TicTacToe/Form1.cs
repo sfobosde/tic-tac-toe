@@ -12,8 +12,14 @@ namespace TicTacToe
 		// Игрок за нолики.
 		private Player zerosPlayer;
 
+		// Игрок, совершающий текущий ход.
+		private Player currentPlayer;
+
 		// Игровое поле.
 		GameField gameField;
+
+		// Запущена ли игра.
+		private bool gameIsOn;
 
 		// Конструктор формы.
 		public Form1()
@@ -28,6 +34,9 @@ namespace TicTacToe
 
 			// Инициализируем игровое поле.
 			InitializeGameField();
+
+			// Ставим, что игра еще не началась.
+			gameIsOn = false;
 		}
 
 		// Функция загрущки формы.
@@ -120,6 +129,7 @@ namespace TicTacToe
 			return player;
 		}
 
+		// Инициализируем игровое поле.
 		private void InitializeGameField()
 		{
 			// Координаты точек по горизонтальной и вертикально осям.
@@ -158,12 +168,35 @@ namespace TicTacToe
 		// Запустить игру.
 		private void StartGame()
 		{
+			gameIsOn = true;
 
+			// Делаем кнопки редактирования игроков неработающими.
+			this.crossesPlayerNameSubmitButton.Enabled = false;
+			this.zerosPlayerNameSubmitButton.Enabled = false;
+
+			currentPlayer = crossesPlayer;
+
+			SendClientMessage("Игра началась.\nПервым ходит игрок Крестики");
+
+			// Вызываем перерисовку экрана.
+			Invalidate();
+		}
+
+		// Отправка сообщения пользователю.
+		private void SendClientMessage(string text = "")
+		{
+			this.ClientMessageLabel.Text = text;
 		}
 
 		// Рисовка окна.
 		private void Form1_Paint(object sender, PaintEventArgs e)
 		{
+			// Провеяем, начата ли игра. Выходим из функции, если не начата.
+			if (!gameIsOn)
+			{
+				return;
+			}
+
 			DrawGameField(e);
 		}
 
@@ -193,13 +226,14 @@ namespace TicTacToe
 			{
 				for (int j = 0; j < gameField.cellCount; j++)
 				{
-					e.Graphics.DrawRectangle(pen, new Rectangle(
-						gameField.Cells[i, j].xStartPoint,
-						gameField.Cells[i, j].yStartPoint,
-						gameField.Cells[i, j].width,
-						gameField.Cells[i, j].height));
+					e.Graphics.DrawRectangle(pen, 
+						new Rectangle(
+							gameField.Cells[i, j].xStartPoint,
+							gameField.Cells[i, j].yStartPoint,
+							gameField.Cells[i, j].width,
+							gameField.Cells[i, j].height));
 
-					// Рисуем фигуры в клетках. Проверим, есть ли они там.
+					// Рисуем фигуры в клетках. Проверим, есть ли они там, т.е. занята ли клетка.
 					if (!gameField.Cells[i, j].IsEmpty)
 					{
 						DrawFigureInCell(gameField.Cells[i, j], e);
@@ -243,14 +277,50 @@ namespace TicTacToe
 		// Игрок нажал на поле.
 		private void Form1_DoubleClick(object sender, EventArgs e)
 		{
-			// Проеобразуем к другому виду для получения координат клика мышки.
+			// Проверяем, запущена ли игра. Если нет, то выходим из функции.
+			if (!gameIsOn)
+			{
+				return;
+			}
+
+			// Преобразуем к другому виду для получения координат клика мышки.
 			MouseEventArgs me = e as MouseEventArgs;
 
 			// Проверяем, был ли клик внутри поля.
 			if (gameField.IsPointOnField(me.X, me.Y))
 			{
-			
+				// Пробуем найти и поставить фигуру текущего игрока в клетку.
+				try
+				{
+					// Ищем клетку.
+					var cell = gameField.FindCell(me.X, me.Y);
+
+					// Ставим в эту клетку фигуру.
+					cell.SetFigure(currentPlayer.PlayerFigure);
+
+					// Передаем ход другому игроку.
+					SwitchPlayer();
+
+					// Перерисовываем экран.
+					Invalidate();
+				}
+				catch (Exception excp)
+				{
+					// Если проищошла ошибка, отправляем сообщение с текстом ошибки.
+					SendClientMessage(excp.Message);
+				}
 			}
+		}
+
+		// Меняем игрока.
+		private void SwitchPlayer()
+		{
+			// Тернарный оператор.
+			currentPlayer = (currentPlayer == crossesPlayer)
+				? zerosPlayer
+				: crossesPlayer;
+
+			SendClientMessage($"Ход перешел к игроку:{currentPlayer.Name}");
 		}
 	}
 }

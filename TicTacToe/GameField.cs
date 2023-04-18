@@ -69,5 +69,34 @@ namespace TicTacToe
 			return (x > horizontalStartPoint && x < horizontalEndPoint)
 				&& (y > verticalStartPont && y < verticalEndPont);
 		}
+
+		// Поиск клетки по координатам.
+		public Cell FindCell(int x, int y)
+		{
+			for (int i = 0; i < cellCount; i++)
+			{
+				for (int j = 0; j < cellCount; j++)
+				{
+					// Если попали в клетку.
+					if (Cells[i, j].IsHitsToCell(x, y))
+					{
+						// Если клетка пустая, то возвращаем ее как найденную.
+						if (Cells[i, j].IsEmpty)
+						{
+							return Cells[i, j];
+						}
+						// Если клетка занята, то выбросим ошибку.
+						else
+						{
+							throw new Exception("Данная клетка занята!");
+						}
+					}
+				}
+			}
+
+			// Если до этого момента функция не закончилась, значит клетка не нашлась.
+			// Сбрасываем ошибку.
+			throw new Exception("Не удалось найти клетку, попробуйте еще раз.");
+		}
 	}
 }

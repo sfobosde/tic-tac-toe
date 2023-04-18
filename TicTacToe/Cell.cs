@@ -6,7 +6,8 @@ namespace TicTacToe
 	class Cell
 	{
 		// Фигура, которая в клеточке.
-		public Figure figure;
+		// Вопросительный знак означает, что может быть пустое значение.
+		public Figure? figure;
 
 		public bool IsEmpty;
 
@@ -38,6 +39,8 @@ namespace TicTacToe
 			this.yEndPoint = yStartPoint + height;
 
 			IsEmpty = true;
+
+			figure = null;
 		}
 
 		// Проверить, попадают ли координаты в данную клетку.

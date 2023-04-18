@@ -36,6 +36,7 @@ namespace TicTacToe
 			this.crossesPlayerNameSubmitButton = new System.Windows.Forms.Button();
 			this.zerosPlayerNameSubmitButton = new System.Windows.Forms.Button();
 			this.StartGameButton = new System.Windows.Forms.Button();
+			this.ClientMessageLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// crossesPlayerName
@@ -59,9 +60,9 @@ namespace TicTacToe
 			this.zerosPlayerNameLabel.AutoSize = true;
 			this.zerosPlayerNameLabel.Location = new System.Drawing.Point(13, 69);
 			this.zerosPlayerNameLabel.Name = "zerosPlayerNameLabel";
-			this.zerosPlayerNameLabel.Size = new System.Drawing.Size(136, 15);
+			this.zerosPlayerNameLabel.Size = new System.Drawing.Size(128, 15);
 			this.zerosPlayerNameLabel.TabIndex = 2;
-			this.zerosPlayerNameLabel.Text = "Имя игрока \"Крестики\"";
+			this.zerosPlayerNameLabel.Text = "Имя игрока \"Нолики\"";
 			// 
 			// zerosPlayerName
 			// 
@@ -100,11 +101,20 @@ namespace TicTacToe
 			this.StartGameButton.UseVisualStyleBackColor = true;
 			this.StartGameButton.Click += new System.EventHandler(this.StartGameButton_Click);
 			// 
+			// ClientMessageLabel
+			// 
+			this.ClientMessageLabel.AutoSize = true;
+			this.ClientMessageLabel.Location = new System.Drawing.Point(13, 175);
+			this.ClientMessageLabel.Name = "ClientMessageLabel";
+			this.ClientMessageLabel.Size = new System.Drawing.Size(0, 15);
+			this.ClientMessageLabel.TabIndex = 7;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 561);
+			this.Controls.Add(this.ClientMessageLabel);
 			this.Controls.Add(this.StartGameButton);
 			this.Controls.Add(this.zerosPlayerNameSubmitButton);
 			this.Controls.Add(this.crossesPlayerNameSubmitButton);
@@ -133,6 +143,7 @@ namespace TicTacToe
 		private System.Windows.Forms.Button crossesPlayerNameSubmitButton;
 		private System.Windows.Forms.Button zerosPlayerNameSubmitButton;
 		private System.Windows.Forms.Button StartGameButton;
+		private System.Windows.Forms.Label ClientMessageLabel;
 	}
 }
 
