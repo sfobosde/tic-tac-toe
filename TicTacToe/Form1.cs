@@ -301,6 +301,9 @@ namespace TicTacToe
 					// Передаем ход другому игроку.
 					SwitchPlayer();
 
+					// Провеяем, нету ли победителя.
+					MonitoreGame();
+
 					// Перерисовываем экран.
 					Invalidate();
 				}
@@ -321,6 +324,25 @@ namespace TicTacToe
 				: crossesPlayer;
 
 			SendClientMessage($"Ход перешел к игроку:{currentPlayer.Name}");
+		}
+
+		// Проверяем состояние поля.
+		private void MonitoreGame()
+		{
+			gameField.MonitorGameState();
+
+			if (gameField.HasWinner)
+			{
+				gameIsOn = false;
+
+				Figure? winnerFigure = gameField.WinnerFigure;
+
+				Player winner = (crossesPlayer.PlayerFigure == winnerFigure)
+					? crossesPlayer
+					: zerosPlayer;
+
+				SendClientMessage($"Победитель раунда: {winner.Name}");
+			}
 		}
 	}
 }

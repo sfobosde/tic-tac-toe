@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace TicTacToe
 {
 	// Игровое поле.
@@ -23,8 +24,17 @@ namespace TicTacToe
 		public int cellSizeHorizontal;
 		public int cellSizeVertical;
 
+		// Количество вряд идущих для победы.
+		private int winCount;
+
 		// Клеточки на поле.
 		public Cell[,] Cells;
+
+		// Найден победитель.
+		public bool HasWinner;
+
+		// Фигура победителя.
+		public Figure? WinnerFigure;
 
 		// Конструктор по умолчанию.
 		public GameField(int horizontalStartPoint, int verticalStartPont, int width, int height, int cellCount)
@@ -48,6 +58,12 @@ namespace TicTacToe
 			cellSizeVertical = height / cellCount;
 
 			Cells = new Cell[cellCount, cellCount];
+
+			winCount = 5;
+
+			HasWinner = false;
+
+			WinnerFigure = null;
 
 			// Проинициализируем все ячейки.
 			for (int i = 0; i < cellCount; i++)
@@ -97,6 +113,97 @@ namespace TicTacToe
 			// Если до этого момента функция не закончилась, значит клетка не нашлась.
 			// Сбрасываем ошибку.
 			throw new Exception("Не удалось найти клетку, попробуйте еще раз.");
+		}
+
+		// Ищем, есть ли на поле победная комбинация.
+		public void MonitorGameState()
+		{
+			CheckVertical();
+			CheckHorizontal();
+		}
+
+		// Просмотр ячеек по столбцам.
+		private void CheckVertical()
+		{
+			// Фигура, по которой будем проверять.
+			Figure? currentFigure;
+
+			// Фигур подряд.
+			int inRowCount;
+
+			for (int i = 0; i < cellCount; i++)
+			{
+				inRowCount = 1;
+
+				for (int j = 0; j < cellCount - 1; j++)
+				{
+					// Берем фигуру первой клетки, которую проверяем.
+					currentFigure = Cells[i, j].figure;
+
+					// Если текущая фигура совпала с прошлой, то увеличиваем счет.
+					if (Cells[i, j + 1].figure != null
+						&& currentFigure != null
+						&& Cells[i, j + 1].figure == currentFigure)
+					{
+						inRowCount++;
+
+						if (inRowCount == 5)
+						{
+							HasWinner = true;
+							WinnerFigure = currentFigure;
+
+							return;
+						}
+					}
+					else
+					{
+						inRowCount = 1;
+						currentFigure = Cells[i, j].figure;
+					}
+				}
+			}
+		}
+
+		// Просмотр ячеек по столбцам.
+		private void CheckHorizontal()
+		{
+			// Фигура, по которой будем проверять.
+			Figure? currentFigure;
+
+			// Фигур подряд.
+			int inRowCount;
+
+			for (int j = 0; j < cellCount - 1; j++)
+			{
+				inRowCount = 1;
+
+				for (int i = 0; i < cellCount; i++)
+				{
+					// Берем фигуру первой клетки, которую проверяем.
+					currentFigure = Cells[i, j].figure;
+
+					// Если текущая фигура совпала с прошлой, то увеличиваем счет.
+					if (Cells[i, j + 1].figure != null
+						&& currentFigure != null
+						&& Cells[i, j + 1].figure == currentFigure)
+					{
+						inRowCount++;
+
+						if (inRowCount == 5)
+						{
+							HasWinner = true;
+							WinnerFigure = currentFigure;
+
+							return;
+						}
+					}
+					else
+					{
+						inRowCount = 1;
+						currentFigure = Cells[i, j].figure;
+					}
+				}
+			}
 		}
 	}
 }
