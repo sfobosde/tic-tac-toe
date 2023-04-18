@@ -35,6 +35,8 @@ namespace TicTacToe
 			this.zerosPlayerName = new System.Windows.Forms.TextBox();
 			this.crossesPlayerNameSubmitButton = new System.Windows.Forms.Button();
 			this.zerosPlayerNameSubmitButton = new System.Windows.Forms.Button();
+			this.StartGameButton = new System.Windows.Forms.Button();
+			this.ClientMessageLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// crossesPlayerName
@@ -58,9 +60,9 @@ namespace TicTacToe
 			this.zerosPlayerNameLabel.AutoSize = true;
 			this.zerosPlayerNameLabel.Location = new System.Drawing.Point(13, 69);
 			this.zerosPlayerNameLabel.Name = "zerosPlayerNameLabel";
-			this.zerosPlayerNameLabel.Size = new System.Drawing.Size(136, 15);
+			this.zerosPlayerNameLabel.Size = new System.Drawing.Size(128, 15);
 			this.zerosPlayerNameLabel.TabIndex = 2;
-			this.zerosPlayerNameLabel.Text = "Имя игрока \"Крестики\"";
+			this.zerosPlayerNameLabel.Text = "Имя игрока \"Нолики\"";
 			// 
 			// zerosPlayerName
 			// 
@@ -89,20 +91,44 @@ namespace TicTacToe
 			this.zerosPlayerNameSubmitButton.UseVisualStyleBackColor = true;
 			this.zerosPlayerNameSubmitButton.Click += new System.EventHandler(this.zerosPlayerNameSubmitButton_Click);
 			// 
+			// StartGameButton
+			// 
+			this.StartGameButton.Location = new System.Drawing.Point(12, 140);
+			this.StartGameButton.Name = "StartGameButton";
+			this.StartGameButton.Size = new System.Drawing.Size(100, 28);
+			this.StartGameButton.TabIndex = 6;
+			this.StartGameButton.Text = "Новая игра";
+			this.StartGameButton.UseVisualStyleBackColor = true;
+			this.StartGameButton.Click += new System.EventHandler(this.StartGameButton_Click);
+			// 
+			// ClientMessageLabel
+			// 
+			this.ClientMessageLabel.AutoSize = true;
+			this.ClientMessageLabel.Location = new System.Drawing.Point(13, 175);
+			this.ClientMessageLabel.Name = "ClientMessageLabel";
+			this.ClientMessageLabel.Size = new System.Drawing.Size(0, 15);
+			this.ClientMessageLabel.TabIndex = 7;
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 561);
+			this.Controls.Add(this.ClientMessageLabel);
+			this.Controls.Add(this.StartGameButton);
 			this.Controls.Add(this.zerosPlayerNameSubmitButton);
 			this.Controls.Add(this.crossesPlayerNameSubmitButton);
 			this.Controls.Add(this.zerosPlayerName);
 			this.Controls.Add(this.zerosPlayerNameLabel);
 			this.Controls.Add(this.crossesPlayerNameLabel);
 			this.Controls.Add(this.crossesPlayerName);
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "Form1";
 			this.Text = "Form1";
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+			this.DoubleClick += new System.EventHandler(this.Form1_DoubleClick);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -116,6 +142,8 @@ namespace TicTacToe
 		private System.Windows.Forms.TextBox zerosPlayerName;
 		private System.Windows.Forms.Button crossesPlayerNameSubmitButton;
 		private System.Windows.Forms.Button zerosPlayerNameSubmitButton;
+		private System.Windows.Forms.Button StartGameButton;
+		private System.Windows.Forms.Label ClientMessageLabel;
 	}
 }
 
