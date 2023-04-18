@@ -18,6 +18,9 @@ namespace TicTacToe
 		// Игрок за нолики.
 		private Player zerosPlayer;
 
+		// Игровое поле.
+		GameField gameField;
+
 		// Конструктор формы.
 		public Form1()
 		{
@@ -28,6 +31,9 @@ namespace TicTacToe
 
 			// Инициализируем объект второго игрока и ставим ему что он не готов к игре.
 			zerosPlayer = new Player("", false);
+
+			// Инициализируем игровое поле.
+			InitializeGameField();
 		}
 
 		// Функция загрущки формы.
@@ -120,6 +126,22 @@ namespace TicTacToe
 			return player;
 		}
 
+		private void InitializeGameField()
+		{
+			// Координаты точек по горизонтальной и вертикально осям.
+			int horizontalStartPoint = 250;
+			int varticalStartPont = 25;
+
+			// Размеры поля в пикселях.
+			int width = 500;
+			int height = 500;
+
+			// Размерность поля.
+			int cellCount = 10;
+
+			gameField = new GameField(horizontalStartPoint, varticalStartPont, width, height, cellCount);
+		}
+
 		// Обработка события нажатия на кнопку начать игру.
 		private void StartGameButton_Click(object sender, EventArgs e)
 		{
@@ -148,10 +170,80 @@ namespace TicTacToe
 		// Рисовка окна.
 		private void Form1_Paint(object sender, PaintEventArgs e)
 		{
-			var rectangle = new Rectangle(200, 50, 500, 500);
-			var pen = new Pen(Color.Black);
+			DrawGameField(e);
+		}
+
+		private void DrawGameField(PaintEventArgs e)
+		{
+			// Создаем квадрат, очерчиващий все поле.
+			Rectangle rectangle = new Rectangle(
+				gameField.horizontalStartPoint, 
+				gameField.verticalStartPont,
+				gameField.width, 
+				gameField.height);
+
+			Pen pen = new Pen(Color.Black);
 
 			e.Graphics.DrawRectangle(pen, rectangle);
+
+			DrawCells(e);
+		}
+
+		// Рисуем все клетки.
+		private void DrawCells(PaintEventArgs e)
+		{
+			Pen pen = new Pen(Color.Black);
+
+			// Берем по одной клетке и отрисовываем их в поле.
+			for (int i = 0; i < gameField.cellCount; i++)
+			{
+				for (int j = 0; j < gameField.cellCount; j++)
+				{
+					e.Graphics.DrawRectangle(pen, new Rectangle(
+						gameField.Cells[i, j].xStartPoint,
+						gameField.Cells[i, j].yStartPoint,
+						gameField.Cells[i, j].width,
+						gameField.Cells[i, j].height));
+
+					// Рисуем фигуры в клетках. Проверим, есть ли они там.
+					if (!gameField.Cells[i, j].IsEmpty)
+					{
+						DrawFigureInCell(gameField.Cells[i, j], e);
+					}
+				}
+			}
+		}
+
+		// Отрисовываем фигуру внутри клетки.
+		private void DrawFigureInCell(Cell cell, PaintEventArgs e)
+		{
+			Pen pen = new Pen(Color.Black);
+
+			// Если фигура крестик.
+			if (cell.figure == Figure.Crosses)
+			{
+				e.Graphics.DrawLine(
+					pen,
+					new Point(cell.xStartPoint, cell.yStartPoint),
+					new Point(cell.xEndPoint, cell.yEndPoint));
+
+				e.Graphics.DrawLine(
+					pen,
+					new Point(cell.xStartPoint, cell.yEndPoint),
+					new Point(cell.xEndPoint, cell.yStartPoint));
+			}
+
+			// Если фигура нолик.
+			if (cell.figure == Figure.Zeros)
+			{
+				e.Graphics.DrawEllipse(
+					pen,
+					new Rectangle(
+						cell.xStartPoint,
+						cell.yStartPoint,
+						cell.width,
+						cell.height));
+			}
 		}
 	}
 }
