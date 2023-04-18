@@ -119,5 +119,39 @@ namespace TicTacToe
 
 			return player;
 		}
+
+		// Обработка события нажатия на кнопку начать игру.
+		private void StartGameButton_Click(object sender, EventArgs e)
+		{
+			if (IsPlayersReady())
+			{
+				StartGame();
+			}
+			else
+			{
+				MessageBox.Show("Все игроки должна нажать Готово");
+			}
+		}
+
+		// Проверить, готовы ли игроки начать игру.
+		private bool IsPlayersReady()
+		{
+			return crossesPlayer.IsReady && zerosPlayer.IsReady;
+		}
+
+		// Запустить игру.
+		private void StartGame()
+		{
+
+		}
+
+		// Рисовка окна.
+		private void Form1_Paint(object sender, PaintEventArgs e)
+		{
+			var rectangle = new Rectangle(200, 50, 500, 500);
+			var pen = new Pen(Color.Black);
+
+			e.Graphics.DrawRectangle(pen, rectangle);
+		}
 	}
 }
