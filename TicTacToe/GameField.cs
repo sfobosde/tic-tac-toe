@@ -4,9 +4,13 @@ namespace TicTacToe
 	// Игровое поле.
 	class GameField
 	{
-		// Координаты точек по горизонтальной и вертикально осям.
+		// Координаты точек начала по горизонтальной и вертикально осям.
 		public int horizontalStartPoint;
 		public int verticalStartPont;
+
+		// Координаты точек конца по горизонтальной и вертикально осям.
+		public int horizontalEndPoint;
+		public int verticalEndPont;
 
 		// Размеры поля в пикселях.
 		public int width;
@@ -28,6 +32,9 @@ namespace TicTacToe
 			// Координаты точек по горизонтальной и вертикально осям.
 			this.horizontalStartPoint = horizontalStartPoint;
 			this.verticalStartPont = verticalStartPont;
+
+			horizontalEndPoint = horizontalStartPoint + width;
+			verticalEndPont = verticalStartPont + height;
 
 			// Размеры поля в пикселях.
 			this.width = width;
@@ -54,6 +61,13 @@ namespace TicTacToe
 						cellSizeVertical);
 				}
 			}
+		}
+
+		// Проверка, был ли клик по полю.
+		public bool IsPointOnField(int x, int y)
+		{
+			return (x > horizontalStartPoint && x < horizontalEndPoint)
+				&& (y > verticalStartPont && y < verticalEndPont);
 		}
 	}
 }

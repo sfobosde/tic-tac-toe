@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TicTacToe
@@ -224,7 +218,7 @@ namespace TicTacToe
 			{
 				e.Graphics.DrawLine(
 					pen,
-					new Point(cell.xStartPoint, cell.yStartPoint),
+					new Point(cell.xStartPoint , cell.yStartPoint),
 					new Point(cell.xEndPoint, cell.yEndPoint));
 
 				e.Graphics.DrawLine(
@@ -243,6 +237,19 @@ namespace TicTacToe
 						cell.yStartPoint,
 						cell.width,
 						cell.height));
+			}
+		}
+
+		// Игрок нажал на поле.
+		private void Form1_DoubleClick(object sender, EventArgs e)
+		{
+			// Проеобразуем к другому виду для получения координат клика мышки.
+			MouseEventArgs me = e as MouseEventArgs;
+
+			// Проверяем, был ли клик внутри поля.
+			if (gameField.IsPointOnField(me.X, me.Y))
+			{
+			
 			}
 		}
 	}
