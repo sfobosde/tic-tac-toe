@@ -118,8 +118,10 @@ namespace TicTacToe
 		// Ищем, есть ли на поле победная комбинация.
 		public void MonitorGameState()
 		{
-			CheckVertical();
-			CheckHorizontal();
+			//CheckVertical();
+			//CheckHorizontal();
+
+			CheckDiagonal();
 		}
 
 		// Просмотр ячеек по столбцам.
@@ -140,7 +142,7 @@ namespace TicTacToe
 					// Берем фигуру первой клетки, которую проверяем.
 					currentFigure = Cells[i, j].figure;
 
-					// Если текущая фигура совпала с прошлой, то увеличиваем счет.
+					// Если текущая фигура совпала со следущющей, то увеличиваем счет.
 					if (Cells[i, j + 1].figure != null
 						&& currentFigure != null
 						&& Cells[i, j + 1].figure == currentFigure)
@@ -158,7 +160,7 @@ namespace TicTacToe
 					else
 					{
 						inRowCount = 1;
-						currentFigure = Cells[i, j].figure;
+						currentFigure = Cells[i, j + 1].figure;
 					}
 				}
 			}
@@ -170,22 +172,22 @@ namespace TicTacToe
 			// Фигура, по которой будем проверять.
 			Figure? currentFigure;
 
-			// Фигур подряд.
+			// Фигур подряд. 
 			int inRowCount;
 
-			for (int j = 0; j < cellCount - 1; j++)
+			for (int i = 0; i < cellCount; i++)
 			{
 				inRowCount = 1;
 
-				for (int i = 0; i < cellCount; i++)
+				for (int j = 0; j < cellCount - 1; j++)
 				{
 					// Берем фигуру первой клетки, которую проверяем.
-					currentFigure = Cells[i, j].figure;
+					currentFigure = Cells[j, i].figure;
 
-					// Если текущая фигура совпала с прошлой, то увеличиваем счет.
-					if (Cells[i, j + 1].figure != null
+					// Если текущая фигура совпала со следущющей по диагонали, то увеличиваем счет.
+					if (Cells[j + 1, i].figure != null
 						&& currentFigure != null
-						&& Cells[i, j + 1].figure == currentFigure)
+						&& Cells[j + 1, i].figure == currentFigure)
 					{
 						inRowCount++;
 
@@ -200,7 +202,85 @@ namespace TicTacToe
 					else
 					{
 						inRowCount = 1;
-						currentFigure = Cells[i, j].figure;
+						currentFigure = Cells[j + 1, i].figure;
+					}
+				}
+			}
+		}
+
+		// Просмотр ячеек по диагоналям.
+		private void CheckDiagonal()
+		{
+			// Фигура, по которой будем проверять.
+			Figure? currentFigure;
+
+			// Фигур подряд. 
+			int inRowCount;
+
+			// Проверяем слева сверху направо вниз
+			for (int i = 0; i < cellCount - 1; i++)
+			{
+				for (int j = 0; j < cellCount - 1; j++)
+				{
+					inRowCount = 1;
+
+					// Берем фигуру первой клетки, которую проверяем.
+					currentFigure = Cells[i, j].figure;
+
+					int k = 1;
+
+					while (
+						(k < 5) 
+						&& (i + k < cellCount) 
+						&& (j + k < cellCount)
+						&& Cells[i + k, j + k].figure != null
+						&& currentFigure != null
+						&& Cells[i + k, j + k].figure == currentFigure)
+					{
+						inRowCount++;
+						k++;
+
+						if (inRowCount == 5)
+						{
+							HasWinner = true;
+							WinnerFigure = currentFigure;
+
+							return;
+						}
+					}
+				}
+			}
+
+			// Проверяем слева снизу направо вверх
+			for (int i = 0; i < cellCount - 1; i++)
+			{
+				for (int j = cellCount - 1; j > 0; j--)
+				{
+					inRowCount = 1;
+
+					// Берем фигуру первой клетки, которую проверяем.
+					currentFigure = Cells[i, j].figure;
+
+					int k = 1;
+
+					while (
+						(k < 5)
+						&& (i + k < cellCount)
+						&& (j - k > 0)
+						&& Cells[i + k, j - k].figure != null
+						&& currentFigure != null
+						&& Cells[i + k, j - k].figure == currentFigure)
+					{
+						inRowCount++;
+						k++;
+
+						if (inRowCount == 5)
+						{
+							HasWinner = true;
+							WinnerFigure = currentFigure;
+
+							return;
+						}
 					}
 				}
 			}
