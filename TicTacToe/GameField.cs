@@ -173,19 +173,19 @@ namespace TicTacToe
 			// Фигур подряд.
 			int inRowCount;
 
-			for (int j = 0; j < cellCount - 1; j++)
+			for (int i = 0; i < cellCount; i++)
 			{
 				inRowCount = 1;
 
-				for (int i = 0; i < cellCount; i++)
+				for (int j = 0; j < cellCount - 1; j++)
 				{
 					// Берем фигуру первой клетки, которую проверяем.
-					currentFigure = Cells[i, j].figure;
+					currentFigure = Cells[j, i].figure;
 
 					// Если текущая фигура совпала с прошлой, то увеличиваем счет.
-					if (Cells[i, j + 1].figure != null
+					if (Cells[j + 1, i].figure != null
 						&& currentFigure != null
-						&& Cells[i, j + 1].figure == currentFigure)
+						&& Cells[j + 1, i].figure == currentFigure)
 					{
 						inRowCount++;
 
@@ -200,7 +200,7 @@ namespace TicTacToe
 					else
 					{
 						inRowCount = 1;
-						currentFigure = Cells[i, j].figure;
+						currentFigure = Cells[j, i].figure;
 					}
 				}
 			}
