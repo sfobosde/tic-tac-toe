@@ -308,5 +308,23 @@ namespace TicTacToe
 				}
 			}
 		}
+
+		// Проверка на ничью.
+		public bool IsDraw()
+		{
+			for (int i = 0; i < cellCount; i++)
+			{
+				for (int j = 0; j < cellCount; j++)
+				{
+					// Если есть хоть еще 1 свободная клетка, то играть можно.
+					if (Cells[i, j].figure == null)
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
 	}
 }

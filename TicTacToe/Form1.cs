@@ -152,6 +152,8 @@ namespace TicTacToe
 			if (IsPlayersReady())
 			{
 				StartGame();
+
+				ShowScore();
 			}
 			else
 			{
@@ -343,6 +345,19 @@ namespace TicTacToe
 		{
 			gameField.MonitorGameState();
 
+			// Если произошла ничья.
+			if (gameField.IsDraw())
+			{
+				gameIsOn = false;
+
+				SendClientMessage($"Ничья!");
+
+				MessageBox.Show($"Ничья!");
+
+				return;
+			}
+
+			// Проверяем есть ли победитель
 			if (gameField.HasWinner)
 			{
 				gameIsOn = false;
@@ -353,10 +368,30 @@ namespace TicTacToe
 					? crossesPlayer
 					: zerosPlayer;
 
+				winner.WinCount++;
+
 				SendClientMessage($"Победитель раунда: {winner.Name}");
 
 				MessageBox.Show($"Победитель раунда: {winner.Name}");
 			}
+
+			ShowScore();
+		}
+
+		// Вывод счета.
+		private void ShowScore()
+		{
+			this.Score.Text = $"{crossesPlayer.Name}: {crossesPlayer.WinCount}\n" +
+				$"{zerosPlayer.Name}: {zerosPlayer.WinCount}";
+		}
+
+		// Нажата кнопка сбросить счет.
+		private void ResetScore_Click(object sender, EventArgs e)
+		{
+			zerosPlayer.WinCount = 0;
+			crossesPlayer.WinCount = 0;
+
+			ShowScore();
 		}
 	}
 }
