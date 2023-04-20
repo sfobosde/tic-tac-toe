@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TicTacToe
 {
@@ -35,6 +36,8 @@ namespace TicTacToe
 
 		// Фигура победителя.
 		public Figure? WinnerFigure;
+
+		public List<Cell> winnerCells;
 
 		// Конструктор по умолчанию.
 		public GameField(int horizontalStartPoint, int verticalStartPont, int width, int height, int cellCount)
@@ -118,8 +121,8 @@ namespace TicTacToe
 		// Ищем, есть ли на поле победная комбинация.
 		public void MonitorGameState()
 		{
-			//CheckVertical();
-			//CheckHorizontal();
+			CheckVertical();
+			CheckHorizontal();
 
 			CheckDiagonal();
 		}
@@ -136,6 +139,7 @@ namespace TicTacToe
 			for (int i = 0; i < cellCount; i++)
 			{
 				inRowCount = 1;
+				winnerCells = new List<Cell>();
 
 				for (int j = 0; j < cellCount - 1; j++)
 				{
@@ -148,6 +152,8 @@ namespace TicTacToe
 						&& Cells[i, j + 1].figure == currentFigure)
 					{
 						inRowCount++;
+
+						winnerCells.Add(Cells[i, j]);
 
 						if (inRowCount == 5)
 						{
@@ -179,6 +185,8 @@ namespace TicTacToe
 			{
 				inRowCount = 1;
 
+				winnerCells = new List<Cell>();
+
 				for (int j = 0; j < cellCount - 1; j++)
 				{
 					// Берем фигуру первой клетки, которую проверяем.
@@ -190,6 +198,8 @@ namespace TicTacToe
 						&& Cells[j + 1, i].figure == currentFigure)
 					{
 						inRowCount++;
+
+						winnerCells.Add(Cells[j, i]);
 
 						if (inRowCount == 5)
 						{
@@ -227,6 +237,8 @@ namespace TicTacToe
 					// Берем фигуру первой клетки, которую проверяем.
 					currentFigure = Cells[i, j].figure;
 
+					winnerCells = new List<Cell>();
+
 					int k = 1;
 
 					while (
@@ -240,6 +252,8 @@ namespace TicTacToe
 						inRowCount++;
 						k++;
 
+						winnerCells.Add(Cells[i, j]);
+
 						if (inRowCount == 5)
 						{
 							HasWinner = true;
@@ -252,38 +266,65 @@ namespace TicTacToe
 			}
 
 			// Проверяем слева снизу направо вверх
-			for (int i = 0; i < cellCount - 1; i++)
+			for (int i = 0; i < cellCount; i++)
 			{
-				for (int j = cellCount - 1; j > 0; j--)
+				for (int j = cellCount - 1; j >= 0; j--)
 				{
 					inRowCount = 1;
+
+					
 
 					// Берем фигуру первой клетки, которую проверяем.
 					currentFigure = Cells[i, j].figure;
 
-					int k = 1;
-
-					while (
-						(k < 5)
-						&& (i + k < cellCount)
-						&& (j - k > 0)
-						&& Cells[i + k, j - k].figure != null
-						&& currentFigure != null
-						&& Cells[i + k, j - k].figure == currentFigure)
+					if (currentFigure != null)
 					{
-						inRowCount++;
-						k++;
+						int k = 1;
 
-						if (inRowCount == 5)
+						winnerCells = new List<Cell>();
+
+						while (
+						(k <= 5)
+						&& (j + k < cellCount)
+						&& (i - k > 0)
+						&& Cells[i - k, j + k].figure != null
+						&& currentFigure != null
+						&& Cells[i - k, j + k].figure == currentFigure)
 						{
-							HasWinner = true;
-							WinnerFigure = currentFigure;
+							inRowCount++;
+							k++;
 
-							return;
+							winnerCells.Add(Cells[i, j]);
+
+							if (inRowCount == 5)
+							{
+								HasWinner = true;
+								WinnerFigure = currentFigure;
+
+								return;
+							}
 						}
 					}
 				}
 			}
+		}
+
+		// Проверка на ничью.
+		public bool IsDraw()
+		{
+			for (int i = 0; i < cellCount; i++)
+			{
+				for (int j = 0; j < cellCount; j++)
+				{
+					// Если есть хоть еще 1 свободная клетка, то играть можно.
+					if (Cells[i, j].figure == null)
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
 		}
 	}
 }

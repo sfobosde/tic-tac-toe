@@ -152,6 +152,8 @@ namespace TicTacToe
 			if (IsPlayersReady())
 			{
 				StartGame();
+
+				ShowScore();
 			}
 			else
 			{
@@ -176,6 +178,8 @@ namespace TicTacToe
 
 			currentPlayer = crossesPlayer;
 
+			InitializeGameField();
+
 			SendClientMessage("Игра началась.\nПервым ходит игрок Крестики");
 
 			// Вызываем перерисовку экрана.
@@ -191,15 +195,10 @@ namespace TicTacToe
 		// Рисовка окна.
 		private void Form1_Paint(object sender, PaintEventArgs e)
 		{
-			// Провеяем, начата ли игра. Выходим из функции, если не начата.
-			if (!gameIsOn)
-			{
-				return;
-			}
-
 			DrawGameField(e);
 		}
 
+		// Отрисовка игрового поля.
 		private void DrawGameField(PaintEventArgs e)
 		{
 			// Создаем квадрат, очерчиващий все поле.
@@ -214,6 +213,21 @@ namespace TicTacToe
 			e.Graphics.DrawRectangle(pen, rectangle);
 
 			DrawCells(e);
+
+			if (gameField.winnerCells != null && gameField.winnerCells.Count == 5)
+			{
+				Cell firstCell = gameField.winnerCells[0];
+
+				Point firstPoint = new Point(firstCell.xStartPoint + firstCell.width / 2,
+					firstCell.yStartPoint + firstCell.height / 2);
+
+				Cell lastCell = gameField.winnerCells[5];
+
+				Point lastPoint = new Point(lastCell.xStartPoint + lastCell.width / 2,
+					lastCell.yStartPoint + lastCell.height / 2);
+
+				e.Graphics.DrawLine(pen, firstPoint, lastPoint);
+			}
 		}
 
 		// Рисуем все клетки.
@@ -331,6 +345,19 @@ namespace TicTacToe
 		{
 			gameField.MonitorGameState();
 
+			// Если произошла ничья.
+			if (gameField.IsDraw())
+			{
+				gameIsOn = false;
+
+				SendClientMessage($"Ничья!");
+
+				MessageBox.Show($"Ничья!");
+
+				return;
+			}
+
+			// Проверяем есть ли победитель
 			if (gameField.HasWinner)
 			{
 				gameIsOn = false;
@@ -341,8 +368,30 @@ namespace TicTacToe
 					? crossesPlayer
 					: zerosPlayer;
 
+				winner.WinCount++;
+
 				SendClientMessage($"Победитель раунда: {winner.Name}");
+
+				MessageBox.Show($"Победитель раунда: {winner.Name}");
 			}
+
+			ShowScore();
+		}
+
+		// Вывод счета.
+		private void ShowScore()
+		{
+			this.Score.Text = $"{crossesPlayer.Name}: {crossesPlayer.WinCount}\n" +
+				$"{zerosPlayer.Name}: {zerosPlayer.WinCount}";
+		}
+
+		// Нажата кнопка сбросить счет.
+		private void ResetScore_Click(object sender, EventArgs e)
+		{
+			zerosPlayer.WinCount = 0;
+			crossesPlayer.WinCount = 0;
+
+			ShowScore();
 		}
 	}
 }

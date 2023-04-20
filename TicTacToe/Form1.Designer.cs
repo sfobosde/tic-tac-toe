@@ -37,6 +37,8 @@ namespace TicTacToe
 			this.zerosPlayerNameSubmitButton = new System.Windows.Forms.Button();
 			this.StartGameButton = new System.Windows.Forms.Button();
 			this.ClientMessageLabel = new System.Windows.Forms.Label();
+			this.Score = new System.Windows.Forms.Label();
+			this.ResetScore = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// crossesPlayerName
@@ -109,11 +111,31 @@ namespace TicTacToe
 			this.ClientMessageLabel.Size = new System.Drawing.Size(0, 15);
 			this.ClientMessageLabel.TabIndex = 7;
 			// 
+			// Score
+			// 
+			this.Score.AutoSize = true;
+			this.Score.Location = new System.Drawing.Point(20, 225);
+			this.Score.Name = "Score";
+			this.Score.Size = new System.Drawing.Size(0, 15);
+			this.Score.TabIndex = 8;
+			// 
+			// ResetScore
+			// 
+			this.ResetScore.Location = new System.Drawing.Point(119, 140);
+			this.ResetScore.Name = "ResetScore";
+			this.ResetScore.Size = new System.Drawing.Size(98, 28);
+			this.ResetScore.TabIndex = 9;
+			this.ResetScore.Text = "Сбросить счет";
+			this.ResetScore.UseVisualStyleBackColor = true;
+			this.ResetScore.Click += new System.EventHandler(this.ResetScore_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(784, 561);
+			this.Controls.Add(this.ResetScore);
+			this.Controls.Add(this.Score);
 			this.Controls.Add(this.ClientMessageLabel);
 			this.Controls.Add(this.StartGameButton);
 			this.Controls.Add(this.zerosPlayerNameSubmitButton);
@@ -144,6 +166,8 @@ namespace TicTacToe
 		private System.Windows.Forms.Button zerosPlayerNameSubmitButton;
 		private System.Windows.Forms.Button StartGameButton;
 		private System.Windows.Forms.Label ClientMessageLabel;
+		private System.Windows.Forms.Label Score;
+		private System.Windows.Forms.Button ResetScore;
 	}
 }
 

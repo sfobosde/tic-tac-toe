@@ -23,6 +23,8 @@
 		{
 			this.Name = Name;
 			this.IsReady = IsReady;
+
+			this.WinCount = 0;
 		}
 
 		// Устанавливаем фигуру игроку.
